@@ -14,28 +14,54 @@ import './Home.css';
 // ====================
 class Home extends Component {
   // Constructor
-  // constructor(props) {
-  //   super(props)
-  // }
+  constructor() {
+    super()
+    // Get current user
+    let currentUser = ''
+    if (localStorage.getItem('remixologyUser')) {
+      currentUser = JSON.parse(localStorage.getItem('remixologyUser')).username
+    }
+    // Set initial state
+    this.state = {
+      currentUser: currentUser,
+    }
+  }
 
+  // User Log In
   logIn(e) {
+    e.preventDefault()
     let data = {
       "email": "nick@nick.nick",
       "password": "123123",
     }
     queryApi('/authenticate', 'POST', data).then( res => {
       if (res.success === true) {
-        localStorage.setItem('remixologyUser', res.token)
+        localStorage.setItem('remixologyUser', JSON.stringify({authHeader: res.token, username: res.username}))
+        // Update state
+        this.setState({
+          currentUser: res.username,
+        })
       }
     })
   }
 
+  // User Log Out
+  logOut(e) {
+    e.preventDefault()
+    localStorage.removeItem('remixologyUser')
+    // Update state
+    this.setState({
+      currentUser: '',
+    })
+  }
 
   render() {
     return(
       <div className="Home">
-        <h1>Hello, Nick.</h1>
+        <h1>Remixology</h1>
+        <p>{this.state.currentUser}</p>
         <a onClick={e => this.logIn(e)}>Log In</a>
+        <a onClick={e => this.logOut(e)}>Log Out</a>
       </div>
     )
   }
