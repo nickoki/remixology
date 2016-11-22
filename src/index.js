@@ -5,14 +5,15 @@
 // ====================
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import Home from './Home'
 import './index.css'
+
 
 
 // ====================
 // Render
 // ====================
 ReactDOM.render(
-  <App />,
+  <Home />,
   document.getElementById('root')
 )
