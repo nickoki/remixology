@@ -22,3 +22,30 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: blue;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  padding: 0 1em;
+
+  background: #eee;
+}
+
+.brand {
+  font-size: 18pt;
+}
+
+.navbar-right a {
+  padding: 0 1em;
+}

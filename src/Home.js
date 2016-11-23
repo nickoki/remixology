@@ -4,6 +4,7 @@
 // Dependencies
 // ====================
 import React, { Component } from 'react'
+import Drinks from './Drinks'
 import {queryApi} from './Utils'
 import './Home.css';
 
@@ -14,9 +15,10 @@ import './Home.css';
 // ====================
 class Home extends Component {
   // Constructor
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     // Get current user
+    // TODO check setInitialState function docs
     let currentUser = ''
     if (localStorage.getItem('remixologyUser')) {
       currentUser = JSON.parse(localStorage.getItem('remixologyUser')).username
@@ -58,10 +60,20 @@ class Home extends Component {
   render() {
     return(
       <div className="Home">
-        <h1>Remixology</h1>
+        <div className="navbar">
+          <div className="navbar-left">
+            <h1 className="brand">Remixology</h1>
+          </div>
+          <div className="navbar-right">
+            <a href="#">Home</a>
+            <a href="#" onClick={e => this.logIn(e)}>Log In</a>
+            <a href="#" onClick={e => this.logOut(e)}>Log Out</a>
+          </div>
+        </div>
         <p>{this.state.currentUser}</p>
-        <a onClick={e => this.logIn(e)}>Log In</a>
-        <a onClick={e => this.logOut(e)}>Log Out</a>
+        <a href="#" onClick={e => this.logIn(e)}>Log In</a>
+        <a href="#" onClick={e => this.logOut(e)}>Log Out</a>
+        <Drinks />
       </div>
     )
   }
