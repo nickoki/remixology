@@ -4,7 +4,7 @@
 // Dependencies
 // ====================
 import React, { Component } from 'react'
-import Drinks from './Drinks'
+import DrinksContainer from './DrinksContainer'
 import {queryApi} from './Utils'
 import './Home.css';
 
@@ -71,9 +71,7 @@ class Home extends Component {
           </div>
         </div>
         <p>{this.state.currentUser}</p>
-        <a href="#" onClick={e => this.logIn(e)}>Log In</a>
-        <a href="#" onClick={e => this.logOut(e)}>Log Out</a>
-        <Drinks />
+        <DrinksContainer />
       </div>
     )
   }

@@ -4,46 +4,34 @@
 // Dependencies
 // ====================
 import React, { Component } from 'react'
-import {queryApi} from './Utils'
-
-
-
-// ====================
-// Class Definition & Render
-// ====================
-class Drinks extends Component {
-  // Constructor
-  constructor() {
-    super()
-    this.state = {
-      drinks: {},
-    }
-  }
-
-  // API
-  getDrinks(e) {
-    queryApi('/drinks', 'GET').then( res => {
-      console.log(res)
-      // Update state
-      this.setState({
-        drinks: res,
-      })
-    })
-  }
-
-  render() {
-    return(
-      <div className="drinks-container">
-        <a href="#" onClick={e => this.getDrinks(e)}>Get Drinks (Console)</a>
-        <h2>{this.state.name}</h2>
-      </div>
-    )
-  }
-}
 
 
 
 // ====================
 // Exports
 // ====================
+class Drinks extends Component {
+  render() {
+    let {drinks} = this.props
+    let results = drinks.map( (drink, i) => {
+      return(
+        <div className="drink" key={i}>
+          <h3>{drink.name}</h3>
+          <div>{drink.user.username}</div>
+          <p>{drink.description}</p>
+          <p>{drink.instructions}</p>
+          <div className="drink-graphic">
+            <img src={drink.glass.image_url} alt={drink.glass.name} />
+          </div>
+        </div>
+      )
+    })
+
+    // Render Return
+    return(
+      <div>{results}</div>
+    )
+  }
+}
+
 export default Drinks
