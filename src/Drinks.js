@@ -4,26 +4,7 @@
 // Dependencies
 // ====================
 import React, { Component } from 'react'
-import Radium, { Style } from 'radium'
-// import Radium, { Style } from 'radium'
-
-
-
-// ====================
-// Styles (Radium)
-// ====================
-// const styles = {
-//   '.drink-graphic': {
-//     width: 400,
-//     height: 600,
-//   },
-//   '.glass-image': {
-//     zIndex: 100,
-//     pointerEvents: 'none',
-//     position: 'absolute',
-//     strokeOpacity: '0'
-//   },
-// }
+import Radium from 'radium'
 
 
 
@@ -51,6 +32,7 @@ class Drinks extends Component {
           zIndex: 100,
           pointerEvents: 'none',
           position: 'absolute',
+          height: 'inherit',
         },
         ingredients: {
           paddingTop: drink.glass.margin_top,
@@ -65,9 +47,12 @@ class Drinks extends Component {
       // Build drink recipe by each ingredient
       let recipe = drink.recipe.map( (ingredient, i) => {
 
+        // Convert ingredient volume
+        let height = ((600 - (drink.glass.margin_top + drink.glass.margin_bottom)) * (ingredient.amount / 100))
+        console.log(height)
         // Update ingredient styles
         style.ingredient = {
-          height: ingredient.amount,
+          height: height,
           background: ingredient.ingredient.color,
         }
 
@@ -103,5 +88,9 @@ class Drinks extends Component {
   }
 }
 
-// export default Drinks
+
+
+// ====================
+// Exports
+// ====================
 module.exports = Radium(Drinks)
