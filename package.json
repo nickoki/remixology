@@ -6,7 +6,10 @@
     "react-scripts": "0.7.0"
   },
   "dependencies": {
+    "babel-plugin-syntax-decorators": "^6.13.0",
+    "core-decorators": "^0.14.0",
     "jquery": "^3.1.1",
+    "node-sass": "^3.13.0",
     "radium": "^0.18.1",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
@@ -17,5 +20,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "syntax-decorators"
+    ]
   }
 }

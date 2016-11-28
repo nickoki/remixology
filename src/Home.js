@@ -5,8 +5,7 @@
 // ====================
 import React, { Component } from 'react'
 import DrinksContainer from './DrinksContainer'
-import {queryApi} from './Utils'
-import './Home.css';
+import { queryApi } from './Utils'
 
 
 
@@ -59,7 +58,8 @@ class Home extends Component {
 
   render() {
     return(
-      <div className="Home">
+      <div className="home">
+        {/* <Style scopeSelector=".home" rules={styles} /> */}
         <div className="navbar">
           <div className="navbar-left">
             <h1 className="brand">Remixology</h1>
