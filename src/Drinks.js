@@ -5,6 +5,7 @@
 // ====================
 import React, { Component } from 'react'
 import Radium from 'radium'
+import { Grid, Card, Icon, Image } from 'semantic-ui-react'
 
 
 
@@ -49,7 +50,7 @@ class Drinks extends Component {
 
         // Convert ingredient volume
         let height = ((600 - (drink.glass.margin_top + drink.glass.margin_bottom)) * (ingredient.amount / 100))
-        console.log(height)
+
         // Update ingredient styles
         style.ingredient = {
           height: height,
@@ -64,26 +65,41 @@ class Drinks extends Component {
 
       // Return drink DOM Object, contains recipe
       return(
-        <div style={style.drink} key={i}>
-          <h3>{drink.name}</h3>
-          <div>{drink.user.username}</div>
-          <p>{drink.description}</p>
-          <p>{drink.instructions}</p>
-          <div style={style.drinkContainer}>
-            <img style={style.glassImage} src={drink.glass.image_url} alt={drink.glass.name} />
-            <div style={style.ingredients}>
-              {recipe}
-            </div>
-          </div>
-        </div>
+        <Grid.Column>
+          <Card style={{width: 428}} key={i}>
+            <Card.Content>
+              <div style={style.drinkContainer}>
+                <Image style={style.glassImage} src={drink.glass.image_url} alt={drink.glass.name} />
+                <div style={style.ingredients}>
+                  {recipe}
+                </div>
+              </div>
+              <Card.Header>
+                <h3>{drink.name}</h3>
+              </Card.Header>
+              <Card.Meta>
+                <span><Icon name="user" /> {drink.user.username}</span>
+              </Card.Meta>
+              <Card.Description>
+                <p>{drink.description}</p>
+                <p>{drink.instructions}</p>
+              </Card.Description>
+            </Card.Content>
+            {/* <Card.Content>
+              Extra
+            </Card.Content> */}
+          </Card>
+        </Grid.Column>
       )
     })
 
     // Render Return
     return(
-      <div>
-        {results}
-      </div>
+      <Grid columns={3}>
+        <Grid.Row stretched>
+          {results}
+        </Grid.Row>
+      </Grid>
     )
   }
 }
