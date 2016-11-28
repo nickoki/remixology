@@ -7,3 +7,4 @@ Front-end application for the [Remixology API](https://github.com/nickoki/remixo
 
 - React
 - Radium to manage React inline styles
+- Semanic UI
