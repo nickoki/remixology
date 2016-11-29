@@ -51,15 +51,13 @@ class UserForm extends Component {
                 <label>Password</label>
                 <input placeholder="Password" type="password" onChange={e => this.handlePasswordChange(e)} />
               </Form.Field>
-              <Button type="submit" onClick={e => logIn(e, this.state.email, this.state.password)}>Submit</Button>
             </Form>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button color='black' onClick={closeModal}>
-            Nope
-          </Button>
-          <Button positive icon='checkmark' labelPosition='right' content="Yep, that's me" onClick={closeModal} />
+          <Button labelPosition="left" icon="checkmark" color="green" onClick={e => logIn(e, this.state.email, this.state.password)} content="Submit" />
+          <Button labelPosition="left" icon="add" color="blue" content="Sign Up" />
+          <Button labelPosition="left" icon="remove" onClick={closeModal} content="Cancel" />
         </Modal.Actions>
       </Modal>
     )

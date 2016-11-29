@@ -16,11 +16,8 @@ import UserForm from './UserForm'
 // Class Definition & Render
 // ====================
 class Navbar extends Component {
-  // Constructor
   constructor() {
     super()
-    // Get current user
-    // TODO check setInitialState function docs
     // Set initial state
     this.state = {
       currentUser: '',
@@ -42,11 +39,12 @@ class Navbar extends Component {
   // User Log In
   logIn = (e, email, password) => {
     e.preventDefault()
-
+    // Set payload
     let data = {
       "email": email,
       "password": password,
     }
+    // Query the api with user data
     queryApi('/authenticate', 'POST', data).then( res => {
       if (res.success === true) {
         localStorage.setItem('remixologyUser', JSON.stringify({authHeader: res.token, username: res.username}))
