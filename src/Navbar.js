@@ -115,29 +115,29 @@ class Navbar extends Component {
 
     // Render Return
     return(
-      <div>
-      <Menu>
-        <Menu.Item href="/"><h1 className="brand">Remixology</h1></Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item href="/">Home</Menu.Item>
-          {this.state.currentUser ? (
-            dropdown
-          ) : (
-            <Menu.Item href="#" onClick={e => this.openModal(e, false)}>Log In</Menu.Item>
-          )}
-          {this.state.currentUser ? null : (
-            <Menu.Item href="#" onClick={e => this.openModal(e, true)}>Sign Up</Menu.Item>
-          )}
-        </Menu.Menu>
-      </Menu>
+      <div className="navbar">
+        <Menu>
+          <Menu.Item href="/"><h1 className="brand">Remixology</h1></Menu.Item>
+          <Menu.Menu position="right">
+            <Menu.Item href="/">Home</Menu.Item>
+            {this.state.currentUser ? (
+              dropdown
+            ) : (
+              <Menu.Item href="#" onClick={e => this.openModal(e, false)}>Log In</Menu.Item>
+            )}
+            {this.state.currentUser ? null : (
+              <Menu.Item href="#" onClick={e => this.openModal(e, true)}>Sign Up</Menu.Item>
+            )}
+          </Menu.Menu>
+        </Menu>
 
-      <UserForm
-        isOpen={this.state.isModalOpen}
-        isSignUp={this.state.isSignUp}
-        closeModal={this.closeModal}
-        logIn={this.logIn}
-        toggleForm={this.toggleForm}
-      />
+        <UserForm
+          isOpen={this.state.isModalOpen}
+          isSignUp={this.state.isSignUp}
+          closeModal={this.closeModal}
+          logIn={this.logIn}
+          toggleForm={this.toggleForm}
+        />
       </div>
     )
   }

@@ -22,9 +22,8 @@ class ShowDrink extends Component {
     }
   }
 
-  // Upon component mount
   componentWillMount() {
-    // API call
+    // Get drink
     queryApi(`/drinks/${this.props.params.id}`, 'GET').then( res => {
       if (res) {
         // Update state
@@ -36,14 +35,39 @@ class ShowDrink extends Component {
     })
   }
 
+  // Edit Drink
+  editDrink() {
+    let data = {
+      "_id": this.props.params.id,
+      "description": "This is a description.",
+    }
+
+    if (localStorage.getItem('remixologyUser')) {
+      var jwt = JSON.parse(localStorage.getItem('remixologyUser')).authHeader
+    }
+
+    queryApi(`/drinks`, 'PUT', JSON.stringify(data), jwt).then(res => {
+      if (res) {
+        //Update state
+        this.setState({
+          drink: res.drink,
+          hasResponse: true,
+        })
+      }
+    })
+  }
+
   render() {
     if (!this.state.hasResponse) {
       return(
-        <div></div>
+        null
       )
     } else {
       return(
-        <Drink drink={this.state.drink} />
+        <div>
+          <a onClick={e => this.editDrink(e)}>Edit!</a>
+          <Drink drink={this.state.drink} />
+        </div>
       )
     }
   }

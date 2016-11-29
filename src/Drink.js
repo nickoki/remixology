@@ -18,7 +18,17 @@ class Drink extends Component {
     let style = {
       drinksContainer: {
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: 'row',
+      },
+      info: {
+        marginTop: '1em',
+        width: '33%',
+        textAlign: 'center',
+      },
+      recipe: {
+        marginTop: '1em',
+        width: '33%',
+        textAlign: 'center',
       },
       card: {
         display: 'inline-flex',
@@ -53,6 +63,7 @@ class Drink extends Component {
 
     // Get drink data from props
     let drink = this.props.drink
+    console.log(drink)
 
     // Build drink recipe by each ingredient
     var recipe = drink.recipe.map( (ingredient, j) => {
@@ -74,14 +85,23 @@ class Drink extends Component {
 
     // Render Return
     return(
-      <div>
-        <Icon name="cocktail" />
-        {drink.name}
-        <div style={style.drinkGraphic}>
-          <Image style={style.glassImage} src={drink.glass.image_url} alt={drink.glass.name} />
-          <div style={style.ingredients}>
-            {recipe}
+      <div className="drinks-container" style={style.drinksContainer}>
+        <div className="info" style={style.info}>
+          <h1>{drink.name}</h1>
+          <h3><Icon name="user" /> {drink.user.username}</h3>
+          <p>{drink.description}</p>
+          <p>{drink.instructions}</p>
+        </div>
+        <div className="graphic">
+          <div style={style.drinkGraphic}>
+            <Image style={style.glassImage} src={drink.glass.image_url} alt={drink.glass.name} />
+            <div style={style.ingredients}>
+              {recipe}
+            </div>
           </div>
+        </div>
+        <div className="recipe" style={style.recipe}>
+          <p>Example list of recipe items</p>
         </div>
       </div>
     )

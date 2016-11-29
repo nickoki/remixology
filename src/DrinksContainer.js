@@ -22,7 +22,6 @@ class DrinksContainer extends Component {
     }
   }
 
-  // Before component mounts
   componentWillMount() {
     // API call
     queryApi('/drinks', 'GET').then( res => {
@@ -39,7 +38,7 @@ class DrinksContainer extends Component {
   render() {
     if (!this.state.hasResponse) {
       return(
-        <div></div>
+        null
       )
     } else {
       return(

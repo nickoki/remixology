@@ -12,12 +12,15 @@ const API_URL = 'http://localhost:7000'
 // ====================
 // Exports
 // ====================
-export function queryApi(uri, type, body, headers) {
+export function queryApi(uri, type, body, jwt) {
   return $.ajax({
     url: API_URL + uri,
-    // contentType: 'application/json',
+    contentType: 'application/json',
     method: type,
     dataType: 'json',
     data: body,
+    headers: {
+      'Authorization': jwt,
+    },
   })
 }
