@@ -1,4 +1,4 @@
-// Drinks.js
+// ShowDrink.js
 
 // ====================
 // Dependencies
@@ -6,30 +6,30 @@
 import React, { Component } from 'react'
 import { queryApi } from './Utils'
 
-import Drinks from './Drinks'
+import Drink from './Drink'
 
 
 
 // ====================
 // Class Definition & Render
 // ====================
-class DrinksContainer extends Component {
-  constructor() {
-    super()
+class ShowDrink extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
-      drinks: [],
+      drink: [],
       hasResponse: false,
     }
   }
 
-  // Before component mounts
+  // Upon component mount
   componentWillMount() {
     // API call
-    queryApi('/drinks', 'GET').then( res => {
+    queryApi(`/drinks/${this.props.params.id}`, 'GET').then( res => {
       if (res) {
         // Update state
         this.setState({
-          drinks: res,
+          drink: res,
           hasResponse: true,
         })
       }
@@ -43,7 +43,7 @@ class DrinksContainer extends Component {
       )
     } else {
       return(
-        <Drinks drinks={this.state.drinks}/>
+        <Drink drink={this.state.drink} />
       )
     }
   }
@@ -54,4 +54,4 @@ class DrinksContainer extends Component {
 // ====================
 // Exports
 // ====================
-export default DrinksContainer
+export default ShowDrink

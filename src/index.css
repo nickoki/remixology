@@ -13,12 +13,17 @@ body {
 }
 
 a {
+  cursor: pointer;
   text-decoration: none;
   color: #333;
 }
 
 a:hover {
   color: #6a6a6a;
+}
+
+.menu .item {
+  z-index: 200;
 }
 
 .navbar {
@@ -41,5 +46,5 @@ a:hover {
 }
 
 .drinks-container {
-  margin: 2em;
+  margin: 1em;
 }

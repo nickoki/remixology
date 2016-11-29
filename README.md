@@ -6,5 +6,6 @@ Front-end application for the [Remixology API](https://github.com/nickoki/remixo
 ## Stack
 
 - React
+- [React Router](https://www.npmjs.com/package/react-router)
 - Radium to manage React inline styles
-- Semanic UI
+- [Semanic UI](http://react.semantic-ui.com/)
