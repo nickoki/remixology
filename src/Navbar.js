@@ -5,8 +5,10 @@
 // ====================
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { Menu, Dropdown } from 'semantic-ui-react'
+import { Dropdown, Menu } from 'semantic-ui-react'
 import { queryApi } from './Utils'
+
+import UserForm from './UserForm'
 
 
 
@@ -22,6 +24,7 @@ class Navbar extends Component {
     // Set initial state
     this.state = {
       currentUser: '',
+      isModalOpen: false,
     }
   }
 
@@ -37,12 +40,12 @@ class Navbar extends Component {
   }
 
   // User Log In
-  logIn(e) {
-    if (this.state.currentUser) console.log("TRUE")
+  logIn = (e, email, password) => {
     e.preventDefault()
+
     let data = {
-      "email": "nick@nick.nick",
-      "password": "123123",
+      "email": email,
+      "password": password,
     }
     queryApi('/authenticate', 'POST', data).then( res => {
       if (res.success === true) {
@@ -50,6 +53,7 @@ class Navbar extends Component {
         // Update state
         this.setState({
           currentUser: res.username,
+          isModalOpen: false,
         })
       }
     })
@@ -68,7 +72,20 @@ class Navbar extends Component {
     this.setState({
       currentUser: '',
     })
-    console.log(this.state.currentUser)
+  }
+
+  // Open User Form Modal
+  openModal = () => {
+    this.setState({
+      isModalOpen: true,
+    })
+  }
+
+  // Close User Form Modal
+  closeModal = () => {
+    this.setState({
+      isModalOpen: false,
+    })
   }
 
   render() {
@@ -76,29 +93,37 @@ class Navbar extends Component {
     let dropdown = (
       <Menu.Item as={Dropdown} text={`Welcome, ${this.state.currentUser}`}>
         <Dropdown.Menu>
-          <Dropdown.Item><a href="#">Favorites</a></Dropdown.Item>
-          <Dropdown.Item><a href="#">My Drinks</a></Dropdown.Item>
-          <Dropdown.Item onClick={e => this.logOut(e)}><a href="#">Log Out</a></Dropdown.Item>
+          <Dropdown.Item href="#">Favorites</Dropdown.Item>
+          <Dropdown.Item href="#">My Drinks</Dropdown.Item>
+          <Dropdown.Item href="#" onClick={e => this.logOut(e)}>Log Out</Dropdown.Item>
         </Dropdown.Menu>
       </Menu.Item>
     )
 
     // Render Return
     return(
+      <div>
       <Menu>
-        <Menu.Item><a href="/"><h1 className="brand">Remixology</h1></a></Menu.Item>
+        <Menu.Item href="/"><h1 className="brand">Remixology</h1></Menu.Item>
         <Menu.Menu position="right">
-          <Menu.Item><a href="/">Home</a></Menu.Item>
+          <Menu.Item href="/">Home</Menu.Item>
           {this.state.currentUser ? (
             dropdown
           ) : (
-            <Menu.Item><a href="#" onClick={e => this.logIn(e)}>Log In</a></Menu.Item>
+            <Menu.Item href="#" onClick={e => this.openModal(e)}>Log In</Menu.Item>
           )}
           {this.state.currentUser ? null : (
-            <Menu.Item><a href="#" onClick={e => this.signUp(e)}>Sign Up</a></Menu.Item>
+            <Menu.Item href="#" onClick={e => this.signUp(e)}>Sign Up</Menu.Item>
           )}
         </Menu.Menu>
       </Menu>
+
+      <UserForm
+        isOpen={this.state.isModalOpen}
+        closeModal={this.closeModal}
+        logIn={this.logIn}
+      />
+      </div>
     )
   }
 }

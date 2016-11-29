@@ -23,7 +23,8 @@ ReactDOM.render(
     <Navbar />
     <Router history={browserHistory}>
       <Route path="/" component={Home} />
-      <Route path="/drinks/:id" component={ShowDrink} />
+        <Route path="/drinks/:id" component={ShowDrink} />
+      {/* </Route> */}
       {/* <Route path="*" component={NoMatch} /> */}
     </Router>
   </div>,
