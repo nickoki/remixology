@@ -22,6 +22,7 @@ class Navbar extends Component {
     this.state = {
       currentUser: '',
       isModalOpen: false,
+      isSignUp: false,
     }
   }
 
@@ -73,9 +74,10 @@ class Navbar extends Component {
   }
 
   // Open User Form Modal
-  openModal = () => {
+  openModal = (e, isSignUp) => {
     this.setState({
       isModalOpen: true,
+      isSignUp: isSignUp,
     })
   }
 
@@ -84,6 +86,19 @@ class Navbar extends Component {
     this.setState({
       isModalOpen: false,
     })
+  }
+
+  // Toggle between Log In and Sign Up form
+  toggleForm = (e) => {
+    if (this.state.isSignUp) {
+      this.setState({
+        isSignUp: false,
+      })
+    } else {
+      this.setState({
+        isSignUp: true,
+      })
+    }
   }
 
   render() {
@@ -108,18 +123,20 @@ class Navbar extends Component {
           {this.state.currentUser ? (
             dropdown
           ) : (
-            <Menu.Item href="#" onClick={e => this.openModal(e)}>Log In</Menu.Item>
+            <Menu.Item href="#" onClick={e => this.openModal(e, false)}>Log In</Menu.Item>
           )}
           {this.state.currentUser ? null : (
-            <Menu.Item href="#" onClick={e => this.signUp(e)}>Sign Up</Menu.Item>
+            <Menu.Item href="#" onClick={e => this.openModal(e, true)}>Sign Up</Menu.Item>
           )}
         </Menu.Menu>
       </Menu>
 
       <UserForm
         isOpen={this.state.isModalOpen}
+        isSignUp={this.state.isSignUp}
         closeModal={this.closeModal}
         logIn={this.logIn}
+        toggleForm={this.toggleForm}
       />
       </div>
     )
