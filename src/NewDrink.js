@@ -19,9 +19,12 @@ class NewDrink extends Component {
   constructor() {
     super()
     this.state = {
+      name: '',
+      description: '',
+      instructions: '',
       glassware: [],
       glassSearchRes: [],
-      glassName: '',
+      glass: '',
       ingredients: [],
       ingredientSearchRes: [],
       ingredientInfo: [],
@@ -49,7 +52,7 @@ class NewDrink extends Component {
 
   handleGlasswareSearchResults = (res) => {
     this.setState({
-      glassName: res
+      glass: res
     })
   }
 
@@ -90,6 +93,43 @@ class NewDrink extends Component {
     })
   }
 
+  handleNameChange = (e) => {
+    this.setState({
+      name: e.target.value
+    })
+  }
+
+  handleDescriptionChange = (e) => {
+    this.setState({
+      description: e.target.value
+    })
+  }
+
+  handleInstructionsChange = (e) => {
+    this.setState({
+      instructions: e.target.value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(this.state.ingredientInfo)
+    let data = {
+      "name": this.state.name,
+      "description": this.state.description,
+      "instructions": this.state.instructions,
+      "glass": this.state.glass,
+      "recipe": this.state.ingredientInfo,
+    }
+    console.log(data)
+    let jwt = JSON.parse(localStorage.getItem('remixologyUser')).authHeader
+
+    queryApi('/drinks', 'POST', JSON.stringify(data), jwt).then( res => {
+      console.log(res)
+      // window.location.href = (`/drinks/${res._id}`)
+    })
+  }
+
   render() {
 
     var ingredientForm = []
@@ -100,6 +140,7 @@ class NewDrink extends Component {
           <Form.Field>
             <label>Ingredient Name</label>
             <ApiSearch
+              name="ingredient"
               resultsIndex={i}
               searchPool={this.state.ingredients}
               handleSearchResults={this.handleIngredientSearchResults}
@@ -109,9 +150,9 @@ class NewDrink extends Component {
           <Form.Field>
             <label>Amount</label>
             {this.state.ingredientInfo[i].amount === 0 ? (
-              <input type="number" onChange={e => this.handleAmountChange(e, i)} value={''} />
+              <input name="amount" type="number" onChange={e => this.handleAmountChange(e, i)} value={''} />
             ) : (
-              <input type="number" onChange={e => this.handleAmountChange(e, i)} value={this.state.ingredientInfo[i].amount || ''} />
+              <input name="amount" type="number" onChange={e => this.handleAmountChange(e, i)} value={this.state.ingredientInfo[i].amount || ''} />
             )}
           </Form.Field>
           <Form.Field>
@@ -127,37 +168,33 @@ class NewDrink extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             <label>Drink Name</label>
-            <input onChange={e => this.handleEmailChange(e)} />
+            <input name="name" onChange={this.handleNameChange} />
           </Form.Field>
 
           <Form.Field>
             <label>Drink Description</label>
-            <input onChange={e => this.handlePasswordChange(e)} />
+            <input name="description" onChange={this.handleDescriptionChange} />
           </Form.Field>
 
           <Form.Field>
             <label>Type of Glass</label>
             <ApiSearch
+              name="glass"
               searchPool={this.state.glassware}
               handleSearchResults={this.handleGlasswareSearchResults}
+              value={this.state.glass}
             />
-            {/* <Search
-              loading={this.state.isLoading}
-              onChange={this.handleGlassChange}
-              onSearchChange={this.handleGlassSearchChange}
-              value={this.state.glassValue}
-              results={this.state.glassResults}
-            /> */}
           </Form.Field>
 
           {ingredientForm}
+
           <Form.Field>
             <Button labelPosition="left" icon="add" content="New Ingredient" onClick={this.addIngredient}/>
           </Form.Field>
 
           <Form.Field>
             <label>Recipe Instructions</label>
-            <input />
+            <input name="instructions" onChange={this.handleInstructionsChange} />
           </Form.Field>
 
           <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Submit" />

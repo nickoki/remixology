@@ -19,7 +19,6 @@ class ApiSearch extends Component {
   constructor() {
     super()
     this.state = {
-      // searchPool: [],
       isLoading: false,
       searchValue: '',
       searchResults: [],
@@ -76,7 +75,6 @@ class ApiSearch extends Component {
   }
 
   render() {
-    // let { searchArray, handleSearchResults } = this.props
     return(
       <Search
         loading={this.state.isLoading}
