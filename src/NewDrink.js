@@ -5,10 +5,10 @@
 // ====================
 import React, { Component } from 'react'
 import { queryApi } from './Utils'
-import { Button, Form, Search } from 'semantic-ui-react'
-import _ from 'lodash'
+import { Button, Form } from 'semantic-ui-react'
 
 // import Drink from './Drink'
+import ApiSearch from './ApiSearch'
 
 
 
@@ -16,19 +16,19 @@ import _ from 'lodash'
 // Class Definition & Render
 // ====================
 class NewDrink extends Component {
-
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       glassware: [],
-      isLoading: false,
-      value: '',
-      results: [],
+      glassSearchRes: [],
+      glassName: '',
+      ingredients: [],
+      ingredientSearchRes: [],
+      ingredientInfo: [],
     }
   }
 
   componentWillMount() {
-    this.resetComponent()
     queryApi('/glassware', 'GET').then( res => {
       if (res) {
         // Update state
@@ -37,45 +37,94 @@ class NewDrink extends Component {
         })
       }
     })
+    queryApi('/ingredients', 'GET').then( res => {
+      if (res) {
+        // Update state
+        this.setState({
+          ingredients: res,
+        })
+      }
+    })
   }
 
-  // Return Search to original state
-  resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
+  handleGlasswareSearchResults = (res) => {
+    this.setState({
+      glassName: res
+    })
+  }
 
-  // Update Search value on change
-  handleChange = (e, result) => this.setState({ value: result.title })
+  handleIngredientSearchResults = (res, index) => {
+    let temp = this.state.ingredientInfo
+    temp[index].name = res
+    this.setState({
+      ingredientInfo: temp
+    })
+    console.log(temp)
+  }
 
-  // Update Search results
-  handleSearchChange = (e, value) => {
-    this.setState({ isLoading: true, value })
+  addIngredient = (e) => {
+    e.preventDefault()
+    let temp = this.state.ingredientInfo
+    temp.push({name: '', amount: 0})
+    this.setState({
+      ingredientInfo: temp
+    })
+    console.log(temp)
+  }
 
-    setTimeout(() => {
-      if (this.state.value.length < 1) return this.resetComponent()
+  removeIngredient = (e, i) => {
+    e.preventDefault()
+    let temp = this.state.ingredientInfo
+    temp.splice(i, 1)
+    this.setState({
+      ingredientInfo: temp
+    })
+  }
 
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = (result) => re.test(result.name)
-
-      var searchResults = _.filter(this.state.glassware, isMatch)
-      var results = []
-      for (let i = 0; i < searchResults.length; i++) {
-        let result = {
-          key: i,
-          title: searchResults[i].name,
-          data: searchResults[i],
-        }
-        results.push(result)
-      }
-      this.setState({
-        isLoading: false,
-        results: results
-      })
-    }, 500)
+  handleAmountChange = (e, i) => {
+    e.preventDefault()
+    let temp = this.state.ingredientInfo
+    temp[i].amount = e.target.value
+    this.setState({
+      ingredientInfo: temp
+    })
   }
 
   render() {
+
+    var ingredientForm = []
+
+    for (let i = 0; i < this.state.ingredientInfo.length; i++) {
+      ingredientForm.push(
+        <Form.Group key={i}>
+          <Form.Field>
+            <label>Ingredient Name</label>
+            <ApiSearch
+              resultsIndex={i}
+              searchPool={this.state.ingredients}
+              handleSearchResults={this.handleIngredientSearchResults}
+              value={this.state.ingredientInfo[i].name}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Amount</label>
+            {this.state.ingredientInfo[i].amount === 0 ? (
+              <input type="number" onChange={e => this.handleAmountChange(e, i)} value={''} />
+            ) : (
+              <input type="number" onChange={e => this.handleAmountChange(e, i)} value={this.state.ingredientInfo[i].amount || ''} />
+            )}
+          </Form.Field>
+          <Form.Field>
+            <label>&nbsp;</label>
+            <Button icon="remove" color="red" onClick={e => this.removeIngredient(e, i)} />
+          </Form.Field>
+        </Form.Group>
+      )
+    }
+
     return(
       <div className="drink-form">
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             <label>Drink Name</label>
             <input onChange={e => this.handleEmailChange(e)} />
@@ -88,21 +137,31 @@ class NewDrink extends Component {
 
           <Form.Field>
             <label>Type of Glass</label>
-            <Search
-              loading={this.state.isLoading}
-              onChange={this.handleChange}
-              onSearchChange={this.handleSearchChange}
-              value={this.state.value}
-              results={this.state.results}
+            <ApiSearch
+              searchPool={this.state.glassware}
+              handleSearchResults={this.handleGlasswareSearchResults}
             />
+            {/* <Search
+              loading={this.state.isLoading}
+              onChange={this.handleGlassChange}
+              onSearchChange={this.handleGlassSearchChange}
+              value={this.state.glassValue}
+              results={this.state.glassResults}
+            /> */}
+          </Form.Field>
+
+          {ingredientForm}
+          <Form.Field>
+            <Button labelPosition="left" icon="add" content="New Ingredient" onClick={this.addIngredient}/>
           </Form.Field>
 
           <Form.Field>
-            <label>Ingredient Name</label>
-            <input onChange={e => this.handlePasswordVerifyChange(e)} />
+            <label>Recipe Instructions</label>
+            <input />
           </Form.Field>
+
+          <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Submit" />
         </Form>
-        <Button labelPosition="left" icon="checkmark" color="green" content="Submit" />
       </div>
     )
   }
