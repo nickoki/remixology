@@ -5,7 +5,7 @@
 // ====================
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { Icon, Image } from 'semantic-ui-react'
+import { Button, Form, Icon, Image } from 'semantic-ui-react'
 
 
 
@@ -13,6 +13,27 @@ import { Icon, Image } from 'semantic-ui-react'
 // Class Definition & Render
 // ====================
 class Drink extends Component {
+  constructor() {
+    super()
+    this.state = {
+      newIngredients: []
+    }
+  }
+
+  newIngredient = (e) => {
+    let arr = this.state.newIngredients
+    arr.push(
+      <Form.Field>
+        <label>New Ingredient</label>
+        <input placeholder="Search Ingredients" />
+      </Form.Field>
+    )
+    this.setState({
+      newIngredients: arr,
+    })
+  }
+
+
   render() {
 
     let style = {
@@ -65,8 +86,8 @@ class Drink extends Component {
     let drink = this.props.drink
     console.log(drink)
 
-    // Build drink recipe by each ingredient
-    var recipe = drink.recipe.map( (ingredient, j) => {
+    // Build drink recipe graphic by each ingredient
+    var recipeGraphic = drink.recipe.map( (ingredient, j) => {
 
       // Convert ingredient volume
       let height = ((600 - (drink.glass.margin_top + drink.glass.margin_bottom)) * (ingredient.amount / 100))
@@ -83,6 +104,16 @@ class Drink extends Component {
       )
     })
 
+    // Build drink recipe list by each ingedient
+    var recipeList = drink.recipe.map( (ingredient, j) => {
+      return(
+        <Form.Field>
+          <label>Name</label>
+          <input placeholder="Search Ingredients" value={ingredient.ingredient.name} />
+        </Form.Field>
+      )
+    })
+
     // Render Return
     return(
       <div className="drinks-container" style={style.drinksContainer}>
@@ -96,12 +127,16 @@ class Drink extends Component {
           <div style={style.drinkGraphic}>
             <Image style={style.glassImage} src={drink.glass.image_url} alt={drink.glass.name} />
             <div style={style.ingredients}>
-              {recipe}
+              {recipeGraphic}
             </div>
           </div>
         </div>
         <div className="recipe" style={style.recipe}>
-          <p>Example list of recipe items</p>
+          <Form>
+            {recipeList}
+            {this.state.newIngredients}
+          </Form>
+          <Button onClick={e => this.newIngredient(e)}>New Ingredient</Button>
         </div>
       </div>
     )

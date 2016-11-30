@@ -39,7 +39,7 @@ class ShowDrink extends Component {
   editDrink() {
     let data = {
       "_id": this.props.params.id,
-      "description": "This is a description.",
+      "description": "New description.",
     }
 
     if (localStorage.getItem('remixologyUser')) {

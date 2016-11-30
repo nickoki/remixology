@@ -35,6 +35,10 @@ a:hover {
   font-size: 18pt;
 }
 
+.drink-form {
+  max-width: 400px;
+}
+
 .navbar-right a {
   padding: 0 1em;
 }

@@ -46,7 +46,7 @@ class Navbar extends Component {
       "password": password,
     }
     // Query the api with user data
-    queryApi('/authenticate', 'POST', data).then( res => {
+    queryApi('/authenticate', 'POST', JSON.stringify(data)).then( res => {
       if (res.success === true) {
         localStorage.setItem('remixologyUser', JSON.stringify({authHeader: res.token, username: res.username}))
         // Update state

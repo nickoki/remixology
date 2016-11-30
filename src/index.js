@@ -9,6 +9,7 @@ import { Router, Route, browserHistory } from 'react-router'
 
 import Navbar from './Navbar'
 import Home from './Home'
+import NewDrink from './NewDrink'
 import ShowDrink from './ShowDrink'
 
 import './index.css'
@@ -23,6 +24,7 @@ ReactDOM.render(
     <Navbar />
     <Router history={browserHistory}>
       <Route path="/" component={Home} />
+        <Route path="/drinks/new" component={NewDrink} />
         <Route path="/drinks/:id" component={ShowDrink} />
       {/* </Route> */}
       {/* <Route path="*" component={NoMatch} /> */}
