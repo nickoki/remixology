@@ -20,7 +20,7 @@ class EditDrink extends Component {
     super()
     this.state = {
       hasResponse: false,
-      id: '',
+      userId: '',
       name: '',
       description: '',
       instructions: '',
@@ -48,7 +48,7 @@ class EditDrink extends Component {
         console.log(formatRecipe)
         // Update state
         this.setState({
-          id: res._id,
+          userId: res.user._id,
           name: res.name,
           description: res.description,
           instructions: res.instructions,
@@ -141,7 +141,8 @@ class EditDrink extends Component {
     e.preventDefault()
 
     let data = {
-      "_id": this.state.id,
+      "_id": this.props.params.id,
+      "user": this.state.userId,
       "name": this.state.name,
       "description": this.state.description,
       "instructions": this.state.instructions,
@@ -153,7 +154,7 @@ class EditDrink extends Component {
 
     queryApi('/drinks', 'PUT', JSON.stringify(data), jwt).then( res => {
       if (res.success) {
-        window.location.href = (`/drinks/${res.id}`)
+        window.location.href = (`/d/${res.id}`)
       }
     })
   }
@@ -240,7 +241,7 @@ class EditDrink extends Component {
 
               <Form.Field label="Recipe Instructions" name="instructions" value={this.state.instructions} control="textarea" rows="5" onChange={this.handleInstructionsChange} />
 
-              <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Submit" />
+              <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Save" />
             </Form>
           </div>
         </div>

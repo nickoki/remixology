@@ -1,4 +1,4 @@
-// Drinks.js
+// DrinksContainer.js
 
 // ====================
 // Dependencies

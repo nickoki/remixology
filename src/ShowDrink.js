@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { queryApi } from './Utils'
-import { Button, Icon } from 'semantic-ui-react'
+import { Button, Icon, Modal } from 'semantic-ui-react'
 
 import DrinkGraphic from './DrinkGraphic'
 
@@ -22,6 +22,7 @@ class ShowDrink extends Component {
       currentUser: '',
       drink: [],
       hasResponse: false,
+      isModalOpen: false,
     }
   }
 
@@ -42,6 +43,36 @@ class ShowDrink extends Component {
         currentUser: JSON.parse(localStorage.getItem('remixologyUser')).username
       })
     }
+  }
+
+  // Open User Form Modal
+  openModal = () => {
+    this.setState({
+      isModalOpen: true,
+    })
+  }
+
+  // Close User Form Modal
+  closeModal = () => {
+    this.setState({
+      isModalOpen: false,
+    })
+  }
+
+  handleDelete = () => {
+    let data = {
+      "_id": this.state.drink._id,
+      "user": this.state.drink.user._id,
+    }
+
+    let jwt = JSON.parse(localStorage.getItem('remixologyUser')).authHeader
+
+    // Send Delete Request
+    queryApi('/drinks', 'DELETE', JSON.stringify(data), jwt).then( res => {
+      if (res.success) {
+        window.location.href = (`/`)
+      }
+    })
   }
 
   render() {
@@ -97,9 +128,12 @@ class ShowDrink extends Component {
             <p>{this.state.drink.description}</p>
             <p>{this.state.drink.instructions}</p>
             {this.state.currentUser === this.state.drink.user.username ? (
-              <Link to={`/drinks/${this.props.params.id}/edit`}>
+              <div>
+                <Link to={`/d/${this.props.params.id}/edit`}>
                 <Button icon="pencil" content="Edit Drink" labelPosition="left" />
               </Link>
+              <Button icon="trash outline" content="Delete" color="red" labelPosition="left" onClick={this.openModal}/>
+              </div>
             ) : (
               null
             )}
@@ -111,6 +145,18 @@ class ShowDrink extends Component {
           <div className="recipe" style={style.recipe}>
             {recipeList}
           </div>
+          <Modal open={this.state.isModalOpen} onClose={this.closeModal}>
+            <Modal.Header>Confirm Delete</Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+                <p>Are you sure you'd like to delete {this.state.drink.name}?</p>
+              </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button icon="trash outline" content="Delete" color="red" labelPosition="left" onClick={this.handleDelete} />
+              <Button icon="remove" content="Cancel" labelPosition="left" onClick={this.closeModal} />
+            </Modal.Actions>
+          </Modal>
         </div>
       )
     }

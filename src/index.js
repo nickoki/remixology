@@ -12,6 +12,7 @@ import Home from './Home'
 import EditDrink from './EditDrink'
 import NewDrink from './NewDrink'
 import ShowDrink from './ShowDrink'
+import GetIngredients from './i/GetIngredients'
 
 import './index.css'
 
@@ -25,9 +26,10 @@ ReactDOM.render(
     <Navbar />
     <Router history={browserHistory}>
       <Route path="/" component={Home} />
-        <Route path="/drinks/new" component={NewDrink} />
-        <Route path="/drinks/:id" component={ShowDrink} />
-        <Route path="/drinks/:id/edit" component={EditDrink} />
+        <Route path="/d/new" component={NewDrink} />
+        <Route path="/d/:id" component={ShowDrink} />
+        <Route path="/d/:id/edit" component={EditDrink} />
+        <Route path="/i" component={GetIngredients} />
       {/* </Route> */}
       {/* <Route path="*" component={NoMatch} /> */}
     </Router>

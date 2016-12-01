@@ -106,8 +106,9 @@ class Navbar extends Component {
     let dropdown = (
       <Menu.Item as={Dropdown} text={`Welcome, ${this.state.currentUser}`}>
         <Dropdown.Menu>
-          <Dropdown.Item href="#">Favorites</Dropdown.Item>
-          <Dropdown.Item href="#">My Drinks</Dropdown.Item>
+          <Dropdown.Item href="/d/new">New Drink</Dropdown.Item>
+          {/* <Dropdown.Item href="#">Favorites</Dropdown.Item> */}
+          {/* <Dropdown.Item href="#">My Drinks</Dropdown.Item> */}
           <Dropdown.Item href="#" onClick={e => this.logOut(e)}>Log Out</Dropdown.Item>
         </Dropdown.Menu>
       </Menu.Item>

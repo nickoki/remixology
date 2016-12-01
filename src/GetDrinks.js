@@ -51,11 +51,11 @@ class GetDrinks extends Component {
             </Card.Description>
           </Card.Content>
           <Card.Content>
-            <Link to={`/drinks/${drink._id}`}>
+            <Link to={`/d/${drink._id}`}>
               <Button icon="cocktail" content="View Drink" labelPosition="left" />
             </Link>
             {currentUser === drink.user.username ? (
-              <Link to={`/drinks/${drink._id}/edit`}>
+              <Link to={`/d/${drink._id}/edit`}>
                 <Button icon="pencil" content="Edit Drink" labelPosition="left" />
               </Link>
             ) : (

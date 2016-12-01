@@ -45,7 +45,7 @@ class UserForm extends Component {
     let { isOpen, closeModal, logIn, toggleForm } = this.props
 
     return(
-      <Modal dimmer={'inverted'} open={isOpen} onClose={closeModal}>
+      <Modal open={isOpen} onClose={closeModal}>
 
         {this.props.isSignUp ? (
           <Modal.Header>Sign Up</Modal.Header>

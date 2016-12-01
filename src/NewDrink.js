@@ -126,7 +126,7 @@ class NewDrink extends Component {
 
     queryApi('/drinks', 'POST', JSON.stringify(data), jwt).then( res => {
       if (res.success) {
-        window.location.href = (`/drinks/${res.id}`)
+        window.location.href = (`/d/${res.id}`)
       }
     })
   }
@@ -204,7 +204,7 @@ class NewDrink extends Component {
 
             <Form.Field label="Recipe Instructions" name="instructions" control="textarea" rows="5" onChange={this.handleInstructionsChange} />
 
-            <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Submit" />
+            <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Save" />
           </Form>
         </div>
       </div>
