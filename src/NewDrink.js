@@ -113,7 +113,7 @@ class NewDrink extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log(this.state.ingredientInfo)
+
     let data = {
       "name": this.state.name,
       "description": this.state.description,
@@ -121,16 +121,27 @@ class NewDrink extends Component {
       "glass": this.state.glass,
       "recipe": this.state.ingredientInfo,
     }
-    console.log(data)
+
     let jwt = JSON.parse(localStorage.getItem('remixologyUser')).authHeader
 
     queryApi('/drinks', 'POST', JSON.stringify(data), jwt).then( res => {
-      console.log(res)
-      // window.location.href = (`/drinks/${res._id}`)
+      if (res.success) {
+        window.location.href = (`/drinks/${res.id}`)
+      }
     })
   }
 
   render() {
+
+    let style = {
+      container:{
+        display: 'flex',
+        justifyContent: 'center',
+      },
+      form: {
+        width: 428,
+      }
+    }
 
     var ingredientForm = []
 
@@ -164,41 +175,38 @@ class NewDrink extends Component {
     }
 
     return(
-      <div className="drink-form">
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <label>Drink Name</label>
-            <input name="name" onChange={this.handleNameChange} />
-          </Form.Field>
+      <div className="container" style={style.container}>
+        <div className="drink-form" style={style.form}>
+          <h1>New Drink</h1>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Field>
+              <label>Drink Name</label>
+              <input name="name" onChange={this.handleNameChange} />
+            </Form.Field>
 
-          <Form.Field>
-            <label>Drink Description</label>
-            <input name="description" onChange={this.handleDescriptionChange} />
-          </Form.Field>
+            <Form.Field label="Drink Description" name="description" control="textarea" rows="2" onChange={this.handleDescriptionChange} />
 
-          <Form.Field>
-            <label>Type of Glass</label>
-            <ApiSearch
-              name="glass"
-              searchPool={this.state.glassware}
-              handleSearchResults={this.handleGlasswareSearchResults}
-              value={this.state.glass}
-            />
-          </Form.Field>
+            <Form.Field>
+              <label>Type of Glass</label>
+              <ApiSearch
+                name="glass"
+                searchPool={this.state.glassware}
+                handleSearchResults={this.handleGlasswareSearchResults}
+                value={this.state.glass}
+              />
+            </Form.Field>
 
-          {ingredientForm}
+            {ingredientForm}
 
-          <Form.Field>
-            <Button labelPosition="left" icon="add" content="New Ingredient" onClick={this.addIngredient}/>
-          </Form.Field>
+            <Form.Field>
+              <Button labelPosition="left" icon="add" content="New Ingredient" onClick={this.addIngredient}/>
+            </Form.Field>
 
-          <Form.Field>
-            <label>Recipe Instructions</label>
-            <input name="instructions" onChange={this.handleInstructionsChange} />
-          </Form.Field>
+            <Form.Field label="Recipe Instructions" name="instructions" control="textarea" rows="5" onChange={this.handleInstructionsChange} />
 
-          <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Submit" />
-        </Form>
+            <Button type="submit" labelPosition="left" icon="checkmark" color="green" content="Submit" />
+          </Form>
+        </div>
       </div>
     )
   }

@@ -4,9 +4,11 @@
 // Dependencies
 // ====================
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import { queryApi } from './Utils'
+import { Button, Icon } from 'semantic-ui-react'
 
-import Drink from './Drink'
+import DrinkGraphic from './DrinkGraphic'
 
 
 
@@ -17,6 +19,7 @@ class ShowDrink extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      currentUser: '',
       drink: [],
       hasResponse: false,
     }
@@ -33,40 +36,81 @@ class ShowDrink extends Component {
         })
       }
     })
-  }
-
-  // Edit Drink
-  editDrink() {
-    let data = {
-      "_id": this.props.params.id,
-      "description": "New description.",
-    }
-
+    // Set currentUser
     if (localStorage.getItem('remixologyUser')) {
-      var jwt = JSON.parse(localStorage.getItem('remixologyUser')).authHeader
+      this.setState({
+        currentUser: JSON.parse(localStorage.getItem('remixologyUser')).username
+      })
     }
-
-    queryApi(`/drinks`, 'PUT', JSON.stringify(data), jwt).then(res => {
-      if (res) {
-        //Update state
-        this.setState({
-          drink: res.drink,
-          hasResponse: true,
-        })
-      }
-    })
   }
 
   render() {
+
+    let style = {
+      drinksContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: '1em',
+      },
+      info: {
+        marginTop: '1em',
+        width: '33%',
+        textAlign: 'center',
+      },
+      recipe: {
+        marginTop: '1em',
+        width: '33%',
+        textAlign: 'center',
+      },
+      shadow: {
+        display: 'block',
+        boxShadow: '0 0 10px 6px #000',
+        width: 160,
+        height: 15,
+        borderRadius: '40%',
+        // marginTop: 30,
+        margin: '50px auto 0',
+        background: '#000',
+        opacity: '0.04',
+	// animation floating-shadow 2s ease infinite
+      },
+    }
+
     if (!this.state.hasResponse) {
       return(
         null
       )
     } else {
+      // Build drink recipe list by each ingedient
+      var recipeList = this.state.drink.recipe.map( (ingredient, i) => {
+        return(
+          <div key={i}>
+            <p>{ingredient.ingredient.name}</p>
+          </div>
+        )
+      })
       return(
-        <div>
-          <a onClick={e => this.editDrink(e)}>Edit!</a>
-          <Drink drink={this.state.drink} />
+        <div className="drinks-container" style={style.drinksContainer}>
+          <div className="info" style={style.info}>
+            <h1>{this.state.drink.name}</h1>
+            <h3><Icon name="user" /> {this.state.drink.user.username}</h3>
+            <p>{this.state.drink.description}</p>
+            <p>{this.state.drink.instructions}</p>
+            {this.state.currentUser === this.state.drink.user.username ? (
+              <Link to={`/drinks/${this.props.params.id}/edit`}>
+                <Button icon="pencil" content="Edit Drink" labelPosition="left" />
+              </Link>
+            ) : (
+              null
+            )}
+          </div>
+          <div className="graphic">
+            <DrinkGraphic drink={this.state.drink}/>
+            <div style={style.shadow}></div>
+          </div>
+          <div className="recipe" style={style.recipe}>
+            {recipeList}
+          </div>
         </div>
       )
     }

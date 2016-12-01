@@ -9,6 +9,7 @@ import { Router, Route, browserHistory } from 'react-router'
 
 import Navbar from './Navbar'
 import Home from './Home'
+import EditDrink from './EditDrink'
 import NewDrink from './NewDrink'
 import ShowDrink from './ShowDrink'
 
@@ -26,6 +27,7 @@ ReactDOM.render(
       <Route path="/" component={Home} />
         <Route path="/drinks/new" component={NewDrink} />
         <Route path="/drinks/:id" component={ShowDrink} />
+        <Route path="/drinks/:id/edit" component={EditDrink} />
       {/* </Route> */}
       {/* <Route path="*" component={NoMatch} /> */}
     </Router>

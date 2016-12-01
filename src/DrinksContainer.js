@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import { queryApi } from './Utils'
 
-import Drinks from './Drinks'
+import GetDrinks from './GetDrinks'
 
 
 
@@ -17,6 +17,7 @@ class DrinksContainer extends Component {
   constructor() {
     super()
     this.state = {
+      currentUser: '',
       drinks: [],
       hasResponse: false,
     }
@@ -33,6 +34,12 @@ class DrinksContainer extends Component {
         })
       }
     })
+    // Set currentUser
+    if (localStorage.getItem('remixologyUser')) {
+      this.setState({
+        currentUser: JSON.parse(localStorage.getItem('remixologyUser')).username
+      })
+    }
   }
 
   render() {
@@ -42,7 +49,7 @@ class DrinksContainer extends Component {
       )
     } else {
       return(
-        <Drinks drinks={this.state.drinks}/>
+        <GetDrinks drinks={this.state.drinks} currentUser={this.state.currentUser} />
       )
     }
   }
