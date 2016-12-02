@@ -25,7 +25,7 @@ class UserForm extends Component {
 
   handleUsernameChange = (e) => {
     this.setState({
-      email: e.target.value,
+      username: e.target.value,
     })
   }
 
