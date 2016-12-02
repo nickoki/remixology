@@ -23,6 +23,10 @@ class Navbar extends Component {
       currentUser: '',
       isModalOpen: false,
       isSignUp: false,
+      username: '',
+      email: '',
+      password: '',
+      passwordVerify: '',
     }
   }
 
@@ -31,19 +35,43 @@ class Navbar extends Component {
     let currentUser = ''
     if (localStorage.getItem('remixologyUser')) {
       currentUser = JSON.parse(localStorage.getItem('remixologyUser')).username
+      this.setState({
+        currentUser: currentUser,
+      })
     }
+  }
+
+  handleUsernameChange = (e) => {
     this.setState({
-      currentUser: currentUser,
+      username: e.target.value,
+    })
+  }
+
+  handleEmailChange = (e) => {
+    this.setState({
+      email: e.target.value,
+    })
+  }
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      password: e.target.value,
+    })
+  }
+
+  handlePasswordVerifyChange = (e) => {
+    this.setState({
+      passwordVerify: e.target.value,
     })
   }
 
   // User Log In
-  logIn = (e, email, password) => {
+  logIn = (e) => {
     e.preventDefault()
     // Set payload
     let data = {
-      "email": email,
-      "password": password,
+      "email": this.state.email,
+      "password": this.state.password,
     }
     // Query the api with user data
     queryApi('/authenticate', 'POST', JSON.stringify(data)).then( res => {
@@ -59,13 +87,13 @@ class Navbar extends Component {
   }
 
   // User Sign Up
-  signUp(e, username, email, password) {
+  signUp = (e) => {
     e.preventDefault()
     // Set payload
     let data = {
-      "username": username,
-      "email": email,
-      "password": password,
+      "username": this.state.username,
+      "email": this.state.email,
+      "password": this.state.password,
     }
     // Query the api with user data
     queryApi('/signup', 'POST', JSON.stringify(data)).then( res => {
@@ -81,7 +109,7 @@ class Navbar extends Component {
   }
 
   // User Log Out
-  logOut(e) {
+  logOut = (e) => {
     e.preventDefault()
     localStorage.removeItem('remixologyUser')
     // Update state
@@ -107,29 +135,26 @@ class Navbar extends Component {
 
   // Toggle between Log In and Sign Up form
   toggleForm = (e) => {
-    if (this.state.isSignUp) {
-      this.setState({
-        isSignUp: false,
-      })
-    } else {
-      this.setState({
-        isSignUp: true,
-      })
-    }
+    this.setState({
+      isSignUp: !this.state.isSignUp,
+    })
   }
 
   render() {
+    let dropdown = ''
     // Build User dropdown
-    let dropdown = (
-      <Menu.Item as={Dropdown} text={`Welcome, ${this.state.currentUser}`}>
-        <Dropdown.Menu>
-          <Dropdown.Item href="/d/new">New Drink</Dropdown.Item>
-          {/* <Dropdown.Item href="#">Favorites</Dropdown.Item> */}
-          {/* <Dropdown.Item href="#">My Drinks</Dropdown.Item> */}
-          <Dropdown.Item href="#" onClick={e => this.logOut(e)}>Log Out</Dropdown.Item>
-        </Dropdown.Menu>
-      </Menu.Item>
-    )
+    if (this.state.currentUser) {
+      dropdown = (
+        <Menu.Item as={Dropdown} text={`Welcome, ${this.state.currentUser}`}>
+          <Dropdown.Menu>
+            <Dropdown.Item href="/d/new">New Drink</Dropdown.Item>
+            {/* <Dropdown.Item href="#">Favorites</Dropdown.Item> */}
+            {/* <Dropdown.Item href="#">My Drinks</Dropdown.Item> */}
+            <Dropdown.Item href="#" onClick={e => this.logOut(e)}>Log Out</Dropdown.Item>
+          </Dropdown.Menu>
+        </Menu.Item>
+      )
+    }
 
     // Render Return
     return(
@@ -157,6 +182,16 @@ class Navbar extends Component {
           logIn={this.logIn}
           signUp={this.signUp}
           toggleForm={this.toggleForm}
+
+          handleUsernameChange={this.handleUsernameChange}
+          handleEmailChange={this.handleEmailChange}
+          handlePasswordChange={this.handlePasswordChange}
+          handlePasswordVerifyChange={this.handlePasswordVerifyChange}
+
+          username={this.state.username}
+          email={this.state.email}
+          password={this.state.password}
+          passwordVerify={this.state.passwordVerify}
         />
       </div>
     )

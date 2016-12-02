@@ -5,7 +5,6 @@
 // ====================
 import React, { Component } from 'react'
 import { Button, Form, Modal } from 'semantic-ui-react'
-// import { queryApi } from './Utils'
 
 
 
@@ -13,43 +12,10 @@ import { Button, Form, Modal } from 'semantic-ui-react'
 // Class Definition & Render
 // ====================
 class UserForm extends Component {
-  constructor() {
-    super()
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      passwordVerify: '',
-    }
-  }
-
-  handleUsernameChange = (e) => {
-    this.setState({
-      username: e.target.value,
-    })
-  }
-
-  handleEmailChange = (e) => {
-    this.setState({
-      email: e.target.value,
-    })
-  }
-
-  handlePasswordChange = (e) => {
-    this.setState({
-      password: e.target.value,
-    })
-  }
-
-  handlePasswordVerifyChange = (e) => {
-    this.setState({
-      passwordVerify: e.target.value,
-    })
-  }
 
   render() {
     // Define Props
-    let { isOpen, closeModal, logIn, signUp, toggleForm } = this.props
+    let { isOpen, closeModal, logIn, signUp, toggleForm, username, email, password, passwordVerify } = this.props
 
     return(
       <Modal open={isOpen} onClose={closeModal}>
@@ -66,24 +32,24 @@ class UserForm extends Component {
               {this.props.isSignUp ? (
                 <Form.Field>
                   <label>Username</label>
-                  <input placeholder="Username" onChange={e => this.handleUsernameChange(e)} />
+                  <input value={username} placeholder="Username" onChange={e => this.props.handleUsernameChange(e)} />
                 </Form.Field>
               ) : (
                 null
               )}
               <Form.Field>
                 <label>Email</label>
-                <input placeholder="Email" onChange={e => this.handleEmailChange(e)} />
+                <input value={email} placeholder="Email" onChange={e => this.props.handleEmailChange(e)} />
               </Form.Field>
               <Form.Field>
                 <label>Password</label>
-                <input placeholder="Password" type="password" onChange={e => this.handlePasswordChange(e)} />
+                <input value={password} placeholder="Password" type="password" onChange={e => this.props.handlePasswordChange(e)} />
               </Form.Field>
 
               {this.props.isSignUp ? (
                 <Form.Field>
                   <label>Confirm Password</label>
-                  <input placeholder="Confirm Password" type="password" onChange={e => this.handlePasswordVerifyChange(e)} />
+                  <input value={passwordVerify} placeholder="Confirm Password" type="password" onChange={e => this.props.handlePasswordVerifyChange(e)} />
                 </Form.Field>
               ) : (
                 null
@@ -94,9 +60,9 @@ class UserForm extends Component {
         </Modal.Content>
         <Modal.Actions>
           {this.props.isSignUp ? (
-            <Button labelPosition="left" icon="checkmark" color="green" onClick={e => signUp(e, this.state.username, this.state.email, this.state.password)} content="Sign Up" />
+            <Button labelPosition="left" icon="checkmark" color="green" onClick={e => signUp(e)} content="Sign Up" />
           ) : (
-            <Button labelPosition="left" icon="checkmark" color="green" onClick={e => logIn(e, this.state.email, this.state.password)} content="Log In" />
+            <Button labelPosition="left" icon="checkmark" color="green" onClick={e => logIn(e)} content="Log In" />
           )}
           {this.props.isSignUp ? (
             <Button labelPosition="left" icon="cocktail" color="blue" onClick={e => toggleForm(e)} content="Log In" />
