@@ -4,8 +4,8 @@
 // Dependencies
 // ====================
 import $ from 'jquery'
-// const API_URL = 'http://api.remixology.io'
-const API_URL = 'http://localhost:7000'
+const API_URL = 'http://api.remixology.io'
+// const API_URL = 'http://localhost:7000'
 
 
 
