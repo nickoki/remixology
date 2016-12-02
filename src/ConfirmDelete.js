@@ -13,7 +13,7 @@ import { Button, Modal } from 'semantic-ui-react'
 // ====================
 class ConfirmDelete extends Component {
   render() {
-    let { isOpen, closeModal, objectName, handleDelete } = this.props
+    let { isOpen, closeModal, handleDelete } = this.props
 
     // Render return
     return(
@@ -21,12 +21,12 @@ class ConfirmDelete extends Component {
         <Modal.Header>Confirm Delete</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <p>Are you sure you'd like to delete {objectName}?</p>
+            <p>Are you sure you'd like to delete?</p>
             <i>This action can't be undone.</i>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button icon="trash outline" content="Delete" color="green" labelPosition="left" onClick={handleDelete} />
+          <Button icon="trash outline" content="Delete" color="red" labelPosition="left" onClick={e => handleDelete(e, this.props.target)} />
           <Button icon="remove" content="Cancel" labelPosition="left" onClick={closeModal} />
         </Modal.Actions>
       </Modal>

@@ -26,6 +26,7 @@ ReactDOM.render(
     <Navbar />
     <Router history={browserHistory}>
       <Route path="/" component={Home} />
+        <Route path="/d" component={Home} />
         <Route path="/d/new" component={NewDrink} />
         <Route path="/d/:id" component={ShowDrink} />
         <Route path="/d/:id/edit" component={EditDrink} />

@@ -120,7 +120,8 @@ class Navbar extends Component {
         <Menu>
           <Menu.Item href="/"><h1 className="brand">Remixology</h1></Menu.Item>
           <Menu.Menu position="right">
-            <Menu.Item href="/">Home</Menu.Item>
+            <Menu.Item href="/d">Drinks</Menu.Item>
+            <Menu.Item href="/i">Ingredients</Menu.Item>
             {this.state.currentUser ? (
               dropdown
             ) : (
