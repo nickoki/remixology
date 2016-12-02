@@ -16,10 +16,17 @@ class UserForm extends Component {
   constructor() {
     super()
     this.state = {
+      username: '',
       email: '',
       password: '',
       passwordVerify: '',
     }
+  }
+
+  handleUsernameChange = (e) => {
+    this.setState({
+      email: e.target.value,
+    })
   }
 
   handleEmailChange = (e) => {
@@ -34,7 +41,7 @@ class UserForm extends Component {
     })
   }
 
-  handlePasswordVarifyChange = (e) => {
+  handlePasswordVerifyChange = (e) => {
     this.setState({
       passwordVerify: e.target.value,
     })
@@ -42,7 +49,7 @@ class UserForm extends Component {
 
   render() {
     // Define Props
-    let { isOpen, closeModal, logIn, toggleForm } = this.props
+    let { isOpen, closeModal, logIn, signUp, toggleForm } = this.props
 
     return(
       <Modal open={isOpen} onClose={closeModal}>
@@ -56,6 +63,14 @@ class UserForm extends Component {
         <Modal.Content>
           <Modal.Description>
             <Form>
+              {this.props.isSignUp ? (
+                <Form.Field>
+                  <label>Username</label>
+                  <input placeholder="Username" onChange={e => this.handleUsernameChange(e)} />
+                </Form.Field>
+              ) : (
+                null
+              )}
               <Form.Field>
                 <label>Email</label>
                 <input placeholder="Email" onChange={e => this.handleEmailChange(e)} />
@@ -78,8 +93,11 @@ class UserForm extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button labelPosition="left" icon="checkmark" color="green" onClick={e => logIn(e, this.state.email, this.state.password)} content="Submit" />
-
+          {this.props.isSignUp ? (
+            <Button labelPosition="left" icon="checkmark" color="green" onClick={e => signUp(e, this.state.username, this.state.email, this.state.password)} content="Sign Up" />
+          ) : (
+            <Button labelPosition="left" icon="checkmark" color="green" onClick={e => logIn(e, this.state.email, this.state.password)} content="Log In" />
+          )}
           {this.props.isSignUp ? (
             <Button labelPosition="left" icon="cocktail" color="blue" onClick={e => toggleForm(e)} content="Log In" />
           ) : (

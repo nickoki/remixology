@@ -59,8 +59,25 @@ class Navbar extends Component {
   }
 
   // User Sign Up
-  signUp(e) {
-    console.log("SIGN UP")
+  signUp(e, username, email, password) {
+    e.preventDefault()
+    // Set payload
+    let data = {
+      "username": username,
+      "email": email,
+      "password": password,
+    }
+    // Query the api with user data
+    queryApi('/signup', 'POST', JSON.stringify(data)).then( res => {
+      if (res.success === true) {
+        localStorage.setItem('remixologyUser', JSON.stringify({authHeader: res.token, username: res.username}))
+        // Update state
+        this.setState({
+          currentUser: res.username,
+          isModalOpen: false,
+        })
+      }
+    })
   }
 
   // User Log Out
@@ -138,6 +155,7 @@ class Navbar extends Component {
           isSignUp={this.state.isSignUp}
           closeModal={this.closeModal}
           logIn={this.logIn}
+          signUp={this.signUp}
           toggleForm={this.toggleForm}
         />
       </div>
