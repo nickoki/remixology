@@ -53,8 +53,12 @@ class Ingredients extends Component {
 
     // Render return
     return(
-      <div>
-        <Button icon="add" content="New Ingredient" color="yellow" labelPosition="left" onClick={e => this.props.toggleNewModal(this.props.nextNewIndex)} />
+      <div className="ingredients-container">
+        { currentUser ? (
+          <Button icon="add" content="New Ingredient" color="yellow" labelPosition="left" onClick={e => this.props.toggleNewModal(this.props.nextNewIndex)} />
+        ) : (
+          null
+        )}
         <Table celled>
           <Table.Header>
             <Table.Row>

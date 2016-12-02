@@ -5,6 +5,7 @@
 // ====================
 import React, { Component } from 'react'
 import { Button, Form, Modal } from 'semantic-ui-react'
+import { SketchPicker } from 'react-color'
 
 
 
@@ -44,7 +45,8 @@ class IngredientForm extends Component {
 
               <Form.Field>
                 <label>Color</label>
-                <input name="color" value={data.color} onChange={e => handleColorChange(e, this.props.target)} />
+                <SketchPicker disableRGB={true} width={400} color={data.color} onChange={e => handleColorChange(data.color, e, this.props.target)} />
+                {/* <input name="color" value={data.color} onChange={e => handleColorChange(e, this.props.target)} /> */}
               </Form.Field>
             </Form>
 

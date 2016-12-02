@@ -48,3 +48,7 @@ a:hover {
   flex-wrap: wrap;
   margin: 1em;
 }
+
+.ingredients-container {
+  margin: 1em;
+}

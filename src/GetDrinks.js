@@ -68,7 +68,7 @@ class GetDrinks extends Component {
 
     // Render Return
     return(
-      <div className="drinks-container" style={style.drinkContainer}>
+      <div id="drinks" className="drinks-container" style={style.drinkContainer}>
         {results}
       </div>
     )

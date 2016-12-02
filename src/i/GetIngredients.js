@@ -97,9 +97,10 @@ class GetIngredients extends Component {
   }
 
   // Handle Ingredient Name Change in Form
-  onColorChange = (e, i) => {
+  onColorChange = (color, e, i) => {
+    console.log(color, e.hex, i)
     let temp = this.state.ingredients
-    temp[i].color = e.target.value
+    temp[i].color = e.hex
     this.setState({
       ingredients: temp,
     })
