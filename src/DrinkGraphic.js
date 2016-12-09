@@ -22,9 +22,15 @@ class DrinkGraphic extends Component {
         textAlign: 'center',
       },
       drinkGraphic: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
+        // display: '-webkit-box',
+        // display: 'flex',
+        //
+        // WebkitFlexDirection: 'column',
+        // flexDirection: 'column',
+        //
+        // WebkitJustifyContent: 'flex-end',
+        // justifyContent: 'flex-end',
+
         width: 400,
         height: 600,
       },
@@ -39,7 +45,6 @@ class DrinkGraphic extends Component {
         paddingBottom: 0,
       },
       ingredient: {
-        width: 400,
         height: 0,
         background: 0,
       },
@@ -54,6 +59,7 @@ class DrinkGraphic extends Component {
       borderLeft: '2px solid #fff',
       paddingTop: drink.glass.margin_top,
       paddingBottom: drink.glass.margin_bottom,
+      width: 400,
     }
 
     // Order recipe by ingredient amounts
@@ -78,7 +84,7 @@ class DrinkGraphic extends Component {
 
     // Render Return
     return(
-      <div style={style.drinkGraphic}>
+      <div style={style.drinkGraphic} className="drink-graphic">
         <Image style={style.glassImage} src={drink.glass.image_url} alt={drink.glass.name} />
         <div style={style.ingredients}>
           {recipeStack}
